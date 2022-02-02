@@ -3,9 +3,10 @@
 import pygame,sys, Player
 
 # Constants
+import World
+
 WIDTH, HEIGHT = 1000, 1000
 TITLE = "Motherload Python"
-WHITE = ( 255, 255, 255)
 
 # Window initialization
 pygame.init()
@@ -15,6 +16,7 @@ pygame.display.set_caption(TITLE)
 # Game initialization
 clock = pygame.time.Clock()
 running = True
+world = World.World(15, 15)
 player = Player.Player(350, 250)
 
 # -------- Main Program Loop -----------
@@ -44,21 +46,27 @@ while running:
 
     # --- Game logic
 
+    print(player.x)
+    if player.x < 0:
+        player.x = 0
+    if player.x + player.rect.width > WIDTH:
+        player.x = WIDTH - player.rect.width
+    if player.y < 0:
+        player.y = 0
+
 
     # --- Drawing code
-
-    # Draw
     screen.fill((12, 24, 36))
+
+    world.draw(screen)
     player.draw(screen)
 
     # update
     player.update()
     pygame.display.flip()
 
-    clock.tick(120)
-
-    # --- Limit to 120 frames per second
-    clock.tick(120)
+    # --- Limit to 144 frames per second
+    clock.tick(144)
 
 # Once we have exited the main program loop we can stop the game engine:
 pygame.quit()
